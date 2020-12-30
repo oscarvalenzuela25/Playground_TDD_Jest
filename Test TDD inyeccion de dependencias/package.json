@@ -1,0 +1,19 @@
+{
+	"name": "test-tdd",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "Oscar V",
+	"license": "MIT",
+	"scripts": {
+		"devel": "nodemon ./server.js",
+		"test": "jest"
+	},
+	"dependencies": {
+		"axios": "^0.21.0",
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"jest": "^26.6.3",
+		"nodemon": "^2.0.6",
+		"supertest": "^6.0.1"
+	}
+}
