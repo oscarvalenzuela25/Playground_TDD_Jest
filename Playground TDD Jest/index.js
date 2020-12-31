@@ -19,6 +19,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
 	console.log(`Aplicacion hosteada en http://localhost:${port}`);
 });
-app.listen(port);
 
 module.exports = app;

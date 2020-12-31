@@ -23,7 +23,7 @@ describe('Servidor', () => {
 			});
 		});
 		describe('POST', () => {
-			it('debe devolver un status 201 al crear un post nuevo ', async () => {
+			it('debe devolver un status 201 al crear un post nuevo con el mismo post', async () => {
 				const newPost = {
 					title: 'Nuevo post de testeo',
 					body: 'Lorem ipsum y la wea',
@@ -34,6 +34,14 @@ describe('Servidor', () => {
 					.send(newPost)
 					.set('Content-Type', 'application/json');
 				expect(response.status).toBe(201);
+				expect(response.body).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						title: 'Nuevo post de testeo',
+						body: 'Lorem ipsum y la wea',
+						userId: 1,
+					})
+				);
 			});
 			it('debe devolver un 500 si el userId no correspone a 1', async () => {
 				const newPost = {
@@ -48,7 +56,7 @@ describe('Servidor', () => {
 			});
 		});
 		describe('PUT', () => {
-			it('debe devolver un status 200 al actualizar un post', async () => {
+			it('debe devolver un status 200 al actualizar un post y con el mismo post', async () => {
 				const newPost = {
 					title: 'Nuevo post de testeo 2',
 					body: 'Lorem ipsum y la wea 2',
@@ -60,6 +68,14 @@ describe('Servidor', () => {
 					.set('Content-Type', 'application/json');
 				expect(response.status).toBe(200);
 				expect(response.body).toEqual({ ...newPost, id: 1 });
+				expect(response.body).toEqual(
+					expect.objectContaining({
+						title: 'Nuevo post de testeo 2',
+						body: 'Lorem ipsum y la wea 2',
+						userId: 1,
+						id: expect.any(Number),
+					})
+				);
 			});
 			it('debe devolver un status 500 al actualizar un post con un userId diferente a 1', async () => {
 				const newPost = {
@@ -92,6 +108,11 @@ describe('Servidor', () => {
 			it('debe devolver un status 404 al eliminar un post sin parametro', async () => {
 				const response = await request(app).delete('/posts/');
 				expect(response.status).toBe(404);
+			});
+			it('debe devolver un objecto vacio al realizar el delete', async () => {
+				const response = await request(app).delete('/posts/1');
+				expect(response.status).toBe(200);
+				expect(response.body).toEqual({});
 			});
 		});
 	});
